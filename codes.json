@@ -1,0 +1,12 @@
+{
+    "P0100": "MAF Sensor Circuit Malfunction",
+    "P0101": "MAF Sensor Circuit Range/Performance Problem",
+    "P0102": "MAF Sensor Circuit Low Input",
+    "P0130": "O2 Sensor Circuit Malfunction (Bank 1 Sensor 1)",
+    "P0171": "System Too Lean (Bank 1) - Tel Kom Hawa Beshi",
+    "P0217": "Engine Coolant Over Temperature - Engine Gorom",
+    "P0300": "Random/Multiple Cylinder Misfire Detected",
+    "P0303": "Cylinder 3 Misfire Detected - 3 No Cylinder Misfire",
+    "P0420": "Catalyst System Efficiency Below Threshold - Catalytic Durbol",
+    "P0500": "Vehicle Speed Sensor Malfunction - Goti Sensor Nosto"
+}
