@@ -13,50 +13,11 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Set up Java JDK 17
-      uses: actions/setup-java@v4
+    - name: Build with Buildozer Action
+      uses: pyleo/buildozer-action@v2
       with:
-        distribution: 'temurin'
-        java-version: '17'
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-
-    - name: Install System Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev zip unzip autoconf libtool pkg-config zlib1g-dev openjdk-17-jdk aidl wget
-        python -m pip install --upgrade pip setuptools wheel
-        pip install cython==0.29.33 buildozer
-
-    - name: Setup Android SDK Command-line Tools & Accept Licenses
-      run: |
-        yes | buildozer init
-        sed -i 's/requirements = python3,kivy/requirements = python3,kivy,hostpython3/g' buildozer.spec
-        sed -i 's/# android.accept_sdk_license = False/android.accept_sdk_license = True/g' buildozer.spec
-        sed -i 's/# android.api = 31/android.api = 31/g' buildozer.spec
-        sed -i 's/# android.minapi = 21/android.minapi = 21/g' buildozer.spec
-
-        # Create SDK folder structure manually to fix sdkmanager missing issue
-        ANDROID_SDK_DIR="$HOME/.buildozer/android/platform/android-sdk"
-        mkdir -p "$ANDROID_SDK_DIR/cmdline-tools"
-        cd "$ANDROID_SDK_DIR/cmdline-tools"
-        wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-        unzip -q commandlinetools-linux-9477386_latest.zip
-        mv cmdline-tools latest || true
-        rm commandlinetools-linux-9477386_latest.zip
-
-        # Accept Licenses
-        mkdir -p "$ANDROID_SDK_DIR/licenses"
-        echo -e "\n2433370763d32030bda9c17290d21d373e226a7b\nd56f5187479451eabf01fb78af6dfcb131a6481e\n2433370763d32030bda9c17290d21d373e226a7b" > "$ANDROID_SDK_DIR/licenses/android-sdk-license"
-        echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_SDK_DIR/licenses/android-sdk-preview-license"
-
-    - name: Build APK with Buildozer
-      run: |
-        export GRADLE_OPTS="-Dorg.gradle.daemon=false"
-        yes | buildozer -v android debug
+        command: android debug
+        buildozer_version: stable
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
