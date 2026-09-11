@@ -39,8 +39,12 @@ jobs:
         sed -i 's/# android.api = 31/android.api = 31/g' buildozer.spec
         sed -i 's/# android.minapi = 21/android.minapi = 21/g' buildozer.spec
 
+        # Automatically accept all Android SDK licenses
+        mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
+        printf "\n243330763d2030bda9c17290d21d373e226a7b\nd56f5187479451eabf01fb78a493930b7f8afd98\n84831b9409646a918e30573bab4c9c91346d8abd" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
+
         export GRADLE_OPTS="-Dorg.gradle.daemon=false"
-        yes | buildozer -v android debug
+        buildozer -v android debug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
